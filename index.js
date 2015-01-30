@@ -1,17 +1,25 @@
+var History = require('html5-history');
+
 function Speyside(handler) {
 	this.handler = handler.bind(this);
 }
 
 Speyside.prototype.listen = function() {
-	window.addEventListener('popstate', this.handler);
-	this.handler({state: history.state, url: location.pathname});
+	History.Adapter.bind(window, 'statechange', triggerHandler.bind(this));
+	triggerHandler.call(this);
+
+	function triggerHandler() {
+		this.handler({state: History.getState(), url: location.pathname});
+	}
 };
 
 Speyside.prototype.navigate = function(url, state) {
-	this.handler({state: state, url: url});
-	history.pushState(state, null, url);
+	this.handler({url: url, state: state});
+	History.pushState(state, null, url);
 };
 
 Speyside.createServer = function(handler) {
 	return new Speyside(handler);
 };
+
+module.exports = Speyside;
