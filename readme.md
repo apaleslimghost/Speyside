@@ -1,5 +1,5 @@
 <h1 align="center">
-	<img src="https://raw.githubusercontent.com/quarterto/Speyside/master/logo.png"><br>
+	<img src="https://raw.githubusercontent.com/quarterto/Speyside/master/logo.png" width="346"><br>
 	<a href="http://badge.fury.io/js/speyside">
 		<img src="https://badge.fury.io/js/speyside.svg" alt="npm version">
 	</a>
