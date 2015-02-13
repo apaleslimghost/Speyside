@@ -4,7 +4,7 @@ var expect = require('sinon-expect').enhance(
 );
 var rewire = require('rewire');
 
-var Speyside = rewire('./');
+var Speyside = rewire('../');
 var win = {}, History = {
 	Adapter: {bind: sinon.spy()},
 	getState: sinon.stub(),
