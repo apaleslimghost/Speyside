@@ -9,7 +9,7 @@ Speyside.prototype.listen = function() {
 	triggerHandler.call(this);
 
 	function triggerHandler() {
-		this.handler({state: History.getState(), url: location.pathname});
+		this.handler({state: History.getState().data, url: location.pathname});
 	}
 };
 

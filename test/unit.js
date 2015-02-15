@@ -22,7 +22,7 @@ if(!global.location) {
 	global.location = {pathname: '/'};
 }
 
-exports.Speyside = {
+exports['Speyside unit tests'] = {
 	'createServer': {
 		'should return instance of server': function() {
 			expect(Speyside.createServer(function() {})).to.be.a(Speyside);
