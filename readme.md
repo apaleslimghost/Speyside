@@ -18,6 +18,8 @@ server.listen();
 server.navigate('/foo', {bar: 'baz'}); //⇒ '/foo' {bar: 'baz'}
 ```
 
+[![Testling status](https://ci.testling.com/quarterto/Speyside.png)](https://ci.testling.com/quarterto/Speyside)
+
 Licence
 ---
 MIT
