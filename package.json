@@ -28,14 +28,16 @@
   },
   "devDependencies": {
     "browserify": "^8.1.3",
+    "concat-stream": "^1.4.7",
     "expect.js": "^0.3.1",
     "faucet": "0.0.1",
+    "from": "^0.1.3",
     "mocha": "^2.1.0",
     "rewire": "^2.2.0",
     "sinon": "^1.12.2",
     "sinon-expect": "^0.2.0",
     "tape": "^3.5.0",
-    "testling": "^1.7.1",
+    "testling": "^1.7.1"
   },
   "testling": {
     "harness": "mocha-exports",

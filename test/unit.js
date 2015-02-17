@@ -1,8 +1,10 @@
-var sinon = require('sinon');
+var sinon  = require('sinon');
 var expect = require('sinon-expect').enhance(
 	require('expect.js'), sinon, 'was'
 );
 var rewire = require('rewire');
+var from   = require('from');
+var concat = require('concat-stream');
 
 var Speyside = rewire('../');
 var win = {}, History = {
@@ -31,16 +33,18 @@ exports['Speyside unit tests'] = {
 	'listen': {
 		'should call handler with initial state': function() {
 			var state = {};
-			History.getState.returns(state);
+			History.getState.returns({data: state});
 			var handler = sinon.spy();
 
 			Speyside.createServer(handler).listen();
 
 			expect(handler).was.called();
-			expect(handler.lastCall.args[0]).to.eql({
-				state: state,
-				url: global.location.pathname
-			});
+			expect(handler.lastCall.args[0]).to.have.property(
+				'state', state
+			);
+			expect(handler.lastCall.args[0]).to.have.property(
+				'url', global.location.pathname
+			);
 		},
 		'should bind history adaptor to window': function() {
 			var handler = sinon.spy();
@@ -60,10 +64,24 @@ exports['Speyside unit tests'] = {
 			Speyside.createServer(handler).navigate('/foo', state);
 
 			expect(handler).was.called();
-			expect(handler.lastCall.args[0]).to.eql({
-				state: state,
-				url: '/foo'
-			});
+			expect(handler.lastCall.args[0]).to.have.property(
+				'state', state
+			);
+			expect(handler.lastCall.args[0]).to.have.property(
+				'url', '/foo'
+			);
+		}
+	},
+	'body': {
+		'should pass through request body stream': function(done) {
+			var body = from(['hello']);
+			Speyside.createServer(function(req) {
+				req.on('error', done);
+				req.pipe(concat(function(body) {
+					expect(body.toString('utf8')).to.be('hello');
+					done();
+				}));
+			}).handler(body);
 		}
 	}
 };

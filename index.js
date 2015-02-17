@@ -1,7 +1,27 @@
 var History = require('html5-history');
+var Transform = require('stream').Transform;
+var util = require('util');
+
+function Request(req) {
+	Transform.call(this);
+
+	this.url = req.url;
+	this.state = req.state;
+	if(req.readable) {
+		req.pipe(this);
+	} else if(req.body) {
+		this.write(req.body);
+	}
+}
+util.inherits(Request, Transform);
+
+Request.prototype._transform = function(chunk, encoding, callback) {
+	callback(null, chunk);
+};
+
 
 function Speyside(handler) {
-	this.handler = handler.bind(this);
+	this._handler = handler;
 }
 
 Speyside.prototype.listen = function() {
@@ -11,6 +31,10 @@ Speyside.prototype.listen = function() {
 	function triggerHandler() {
 		this.handler({state: History.getState().data, url: location.pathname});
 	}
+};
+
+Speyside.prototype.handler = function(req) {
+	this._handler.call(this, new Request(req));
 };
 
 Speyside.prototype.navigate = function(url, state) {
