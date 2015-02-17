@@ -1,6 +1,6 @@
 {
   "name": "speyside",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Clientside request handlers",
   "main": "index.js",
   "scripts": {
