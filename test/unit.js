@@ -81,7 +81,7 @@ exports['Speyside unit tests'] = {
 					expect(body.toString('utf8')).to.be('hello');
 					done();
 				}));
-			}).handler(body);
+			}).handler({state: body});
 		}
 	}
 };

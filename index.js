@@ -7,10 +7,10 @@ function Request(req) {
 
 	this.url = req.url;
 	this.state = req.state;
-	if(req.readable) {
-		req.pipe(this);
-	} else if(req.body) {
-		this.write(req.body);
+	if(req.state.readable) {
+		req.state.pipe(this);
+	} else if(req.state.body) {
+		this.write(req.state.body);
 	}
 }
 util.inherits(Request, Transform);
