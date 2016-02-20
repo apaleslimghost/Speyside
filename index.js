@@ -2,9 +2,10 @@ var History = require('html5-history');
 var Transform = require('stream').Transform;
 var util = require('util');
 
-function Request(req) {
+function Request(req, server) {
 	Transform.call(this);
 
+	this.server = server;
 	this.url = req.url;
 	this.state = req.state;
 	if(req.state.readable) {
@@ -19,6 +20,9 @@ Request.prototype._transform = function(chunk, encoding, callback) {
 	callback(null, chunk);
 };
 
+Request.prototype.navigate = function(url, state) {
+	this.server.navigate(url, state);
+};
 
 function Speyside(handler) {
 	this._handler = handler;
@@ -34,7 +38,7 @@ Speyside.prototype.listen = function() {
 };
 
 Speyside.prototype.handler = function(req) {
-	this._handler.call(this, new Request(req));
+	this._handler.call(this, new Request(req, this));
 };
 
 Speyside.prototype.navigate = function(url, state) {
