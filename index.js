@@ -35,6 +35,8 @@ Speyside.prototype.listen = function() {
 	function triggerHandler() {
 		this.handler({state: History.getState().data, url: location.pathname});
 	}
+
+	return this;
 };
 
 Speyside.prototype.handler = function(req) {
